@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Quiet Margin — a poetry club</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4ecdc;--pg:#fbf6ea;--ink:#2b2724;--mu:#6e6258;--ln:#d8c9ad;--ac:#7a2e3a;--ol:#6b6b3f;--sz:19px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1a17;--pg:#262220;--ink:#e9dfcd;--mu:#a89b8a;--ln:#41392f;--ac:#d08a93;--ol:#a9a972}}
+:root[data-theme="dark"]{--bg:#1d1a17;--pg:#262220;--ink:#e9dfcd;--mu:#a89b8a;--ln:#41392f;--ac:#d08a93;--ol:#a9a972}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,sans-serif;line-height:1.5}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;margin:0}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:1px solid var(--ln);padding:.45rem .8rem;min-height:40px;border-radius:2px}
+button:hover{border-color:var(--ac);color:var(--ac)}button.pri{background:var(--ac);color:var(--pg);border-color:var(--ac)}
+button[aria-disabled=true]{opacity:.45}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,textarea{width:100%;background:var(--pg);border:1px solid var(--ln);padding:.6rem;border-radius:2px}
+label{display:block;margin:.7rem 0 .25rem;color:var(--mu);font-size:.9rem}
+.gate{max-width:1000px;margin:0 auto;padding:2rem 1rem;text-align:center}
+.gate h1{font-size:2.6rem;letter-spacing:.04em}.gate .sub{font-style:italic;font-size:1.3rem;color:var(--mu)}
+.opts{display:grid;gap:1rem;margin:1.5rem 0;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));text-align:left}
+.opt{background:var(--pg);border:1px solid var(--ln);padding:1.2rem;display:flex;flex-direction:column;gap:.5rem;box-shadow:3px 3px 0 var(--ln)}
+.opt h2{font-size:1.6rem}.opt .q{font-style:italic;color:var(--ac)}.opt ul{padding-left:1.1rem;margin:.2rem 0;color:var(--mu);font-size:.92rem;flex:1}
+.card{max-width:440px;margin:1rem auto;background:var(--pg);border:1px solid var(--ln);padding:1.4rem;text-align:left}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+aside.nav{border-right:1px solid var(--ln);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:.2rem}
+.logo{font-size:1.6rem;margin-bottom:.8rem}.logo small{display:block;font:italic .85rem "Cormorant Garamond",serif;color:var(--mu)}
+.nav button{border:0;text-align:left;width:100%;border-left:3px solid transparent;border-radius:0}
+.nav button[aria-current=page]{border-left-color:var(--ac);background:var(--pg);color:var(--ac)}
+.me{margin-top:auto;border-top:1px solid var(--ln);padding-top:.8rem;font-size:.9rem}
+.badge{font-size:.72rem;border:1px solid var(--ol);color:var(--ol);padding:0 .35rem;margin-left:.3rem}
+.cols{display:grid;grid-template-columns:minmax(0,1fr);}
+@media(min-width:1100px){.cols{grid-template-columns:minmax(0,680px) 280px;gap:2rem;justify-content:center}}
+main{padding:1rem;min-width:0}.right{display:none;padding:1rem 0}
+@media(min-width:1100px){.right{display:block}}
+.right section{border-top:1px solid var(--ln);padding:.8rem 0;font-size:.92rem}
+.top{display:none}
+@media(max-width:800px){.app{display:block}.top{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;border-bottom:1px solid var(--ln);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+aside.nav{position:fixed;inset:0 25% 0 0;z-index:9;background:var(--bg);transform:translateX(-105%);transition:transform .2s;height:100%}aside.nav.open{transform:none}}
+.post{background:var(--pg);border:1px solid var(--ln);padding:1.2rem;margin:0 0 1.2rem;overflow-wrap:anywhere}
+.post h3{font-size:1.6rem}.meta{color:var(--mu);font-size:.85rem}
+.body{font-family:"Cormorant Garamond",Georgia,serif;font-size:var(--sz);white-space:pre-wrap;margin:.8rem 0;line-height:1.55}
+.post img{max-width:100%;display:block;margin:.6rem 0;border:1px solid var(--ln)}
+.acts{display:flex;flex-wrap:wrap;gap:.4rem;border-top:1px solid var(--ln);padding-top:.6rem}.acts button{font-size:.85rem;min-height:36px}
+.cm{border-left:2px solid var(--ln);margin:.6rem 0 0 .3rem;padding-left:.8rem;font-size:.92rem}.cm.acc{border-color:var(--ol)}
+.tag{color:var(--ol);font-size:.85rem;margin-right:.5rem}
+.empty{text-align:center;color:var(--mu);font-style:italic;padding:2rem;font-family:"Cormorant Garamond",serif;font-size:1.3rem}
+#toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.6rem 1rem;max-width:90%;z-index:20;display:none}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}.row>input{flex:1;min-width:140px}
+.note{background:var(--pg);border:1px dashed var(--ln);padding:.6rem .8rem;font-size:.9rem;color:var(--mu);margin-bottom:1rem}
+</style></head><body><div id="root"></div><div id="toast" role="status"></div>
+<script>
+const NAME="The Quiet Margin",TEMP_HOURS=12; // change the club name / temporary-session length here
+const K="qm_proto_v1",$=s=>document.querySelector(s);
+const SEC={home:["Home","⌂","poem"],questions:["Questions","?","question"],lounge:["The Lounge","☾","topic"],help:["Writing Help","✎","request"],prompts:["Daily Prompts","❦","response"],saved:["Collections","❥"],writers:["Writers","✒"],about:["About the Club","ℹ"]};
+const PROMPTS=[["Nostalgia","Write about a smell that returns you to a kitchen you no longer have."],["Nature","Describe a tree as if it were a patient letter-writer."],["Heartbreak","Write the last text message you never sent."],["Memory","A room, seen from the height you were at six."],["Identity","List the names you have answered to."],["Dreams","Begin with: “In the dream, the stairs kept…”"],["Experimental","Write a poem with no verbs, then give it one."],["Nature","The weather as a mood you inherited."],["Memory","An object in a drawer that no one dares throw away."]];
+const QUOTES=["“A poem begins in delight and ends in wisdom.” — Robert Frost","“Poetry is the rhythmical creation of beauty in words.” — Edgar Allan Poe","“I took a deep breath and listened to the old brag of my heart.” — Lucille Clifton (short excerpt)"];
+let S=load(),view="home",gate="choose",q="",shown=6,open=new Set(),editing=null;
+function load(){try{const d=JSON.parse(localStorage.getItem(K));if(d)return d}catch(e){}return{users:[],posts:[{id:"seed",sec:"home",title:"Welcome (sample poem)",body:"Leave one line here\nthe way a traveller leaves a coat\non a hook by the door—\nnot to be claimed,\nonly to say someone was warm.",tags:["sample"],author:{id:"house",pen:NAME+" (sample)",mode:"perm"},ts:Date.now(),likes:[],comments:[],rev:[]}],saves:{},reports:[],theme:"",session:null}}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){toast("Browser storage is full. This prototype stores everything in this browser only.")}}
+function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",3800)}
+function h(t,a={},...k){const e=document.createElement(t);for(const[n,v]of Object.entries(a)){if(n.startsWith("on"))e.addEventListener(n.slice(2),v);else if(n==="class")e.className=v;else if(v!==false&&v!=null)e.setAttribute(n,v===true?"":v)}k.flat().forEach(c=>e.append(c instanceof Node?c:document.createTextNode(c??"")));return e}
+const rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+// ---- sessions & permissions (frontend only in this prototype; see notes) ----
+function sess(){const s=S.session;if(s&&s.mode==="temp"&&Date.now()>s.exp){S.session=null;save();return null}return s}
+const MODE={perm:{post:1,comment:1,react:1,save:1},temp:{post:1,comment:1,react:1},visitor:{}};
+function can(a,sec){const s=sess();if(!s)return false;if(s.mode==="visitor")return sec==="questions"&&(a==="post"||a==="comment");return!!MODE[s.mode][a]}
+function deny(a){const s=sess();toast(s.mode==="visitor"?"Visitors can read everywhere and take part in Questions. To do this, enter as a temporary poet or permanent member.":"Collections need a permanent membership.");go("switch")}
+const mine=p=>{const s=sess();return s&&p.author.id===s.uid};
+async function hash(pw,salt){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",salt:new TextEncoder().encode(salt),iterations:150000,hash:"SHA-256"},k,256);return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function taken(n){return S.users.some(u=>u.pen.toLowerCase()===n.toLowerCase())}
+function go(v){if(v==="switch"){gate="choose";S.session=null;save();return render()}view=v;shown=6;q="";render();scrollTo(0,0)}
+// ---- screens ----
+function render(){document.documentElement.dataset.theme=S.theme;const r=$("#root");r.replaceChildren();sess()?r.append(app()):r.append(gateScreen())}
+function gateScreen(){
+const g=h("div",{class:"gate"});
+if(gate==="choose"){g.append(h("h1",{},NAME),h("p",{class:"sub"},"How would you like to enter our little world of words?"),
+h("div",{class:"opts"},
+opt("Permanent member","Leave a little of yourself here.","For those who wish to return, grow, and leave their words among ours.",["Pen name + password","Publish, comment, react, save collections","Edit your own work, keep a profile"],"Continue",()=>{gate="reg"; render()}),
+opt("Temporary poet","Leave your words, even if you don’t stay.","For a passing thought, a poem, or a moment that deserves to be written down.",["Pen name only — no password","Publish and join every forum","Edit rights end after "+TEMP_HOURS+" hours; your words stay"],"Continue",()=>{gate="temp";render()}),
+opt("Visitor","Read quietly. You belong here, too.","For those who would rather wander through words before leaving any of their own.",["No sign-up at all","Read everything","Ask and answer in Questions"],"Continue",()=>{S.session={mode:"visitor",uid:"v"+rid(),pen:"Anonymous visitor"};save();view="home";render()})),
+h("details",{},h("summary",{},"How does this work?"),h("p",{},"Permanent members sign in again with pen name and password. Temporary poets can publish without an account but lose editing access when their session ends. Visitors read, and may take part in Questions. Every published work stays in the archive, subject to the removal policy under About. In this prototype, accounts live in this browser only.")));
+return g}
+const f=(id,l,t="text")=>[h("label",{for:id},l),h("input",{id,type:t,autocomplete:"off"})];
+if(gate==="reg"||gate==="signin"){const si=gate==="signin";const err=h("p",{class:"meta",role:"alert"});
+const c=h("form",{class:"card",onsubmit:async e=>{e.preventDefault();const pen=$("#pn").value.trim(),pw=$("#pw").value;
+if(!pen)return err.textContent="Please enter a pen name.";
+if(si){const u=S.users.find(u=>u.pen.toLowerCase()===pen.toLowerCase());if(!u||await hash(pw,u.salt)!==u.hash)return err.textContent="That pen name and password do not match.";S.session={mode:"perm",uid:u.id,pen:u.pen}}
+else{if(pen.length>40)return err.textContent="Keep it to 40 characters.";if(taken(pen))return err.textContent="That pen name is already taken. Try another.";if(pw.length<8)return err.textContent="Password needs at least 8 characters.";if(pw!==$("#pw2").value)return err.textContent="The passwords do not match.";
+const salt=rid()+rid(),u={id:"u"+rid(),pen,salt,hash:await hash(pw,salt),joined:Date.now()};S.users.push(u);S.session={mode:"perm",uid:u.id,pen}}
+save();gate="welcome";render()}},h("h2",{},si?"Sign in":"What name shall your words carry?"),h("p",{class:"meta"},"Your pen name is the identity others see. No email, phone, or legal name."),
+...f("pn","Pen name"),...f("pw","Password","password"),...(si?[]:f("pw2","Confirm password","password")),
+h("label",{},h("input",{type:"checkbox",style:"width:auto",onchange:e=>document.querySelectorAll("#pw,#pw2").forEach(i=>i.type=e.target.checked?"text":"password")})," Show password"),
+si?"":h("p",{class:"meta"},"At least 8 characters. There is no email, so a forgotten password cannot be recovered — keep it safe."),err,
+h("div",{class:"row"},h("button",{class:"pri"},si?"Sign in":"Create my account"),h("button",{type:"button",onclick:()=>{gate=si?"reg":"signin";render()}},si?"New here?":"Already a member?"),h("button",{type:"button",onclick:()=>{gate="choose";render()}},"Back")));
+g.append(c);return g}
+if(gate==="temp"){const err=h("p",{class:"meta",role:"alert"});g.append(h("form",{class:"card",onsubmit:e=>{e.preventDefault();const pen=$("#pn").value.trim();if(!pen)return err.textContent="Please enter a pen name.";if(taken(pen))return err.textContent="That name belongs to a permanent member. Choose another.";
+S.session={mode:"temp",uid:"t"+rid(),pen,exp:Date.now()+TEMP_HOURS*36e5};save();gate="welcome";render()}},h("h2",{},"What name shall your words carry?"),h("p",{class:"meta"},"A temporary pen name — no password. After "+TEMP_HOURS+" hours (or when you end the session) this identity can no longer edit anything. What you publish stays, under this name. Returning later makes you a new temporary poet."),...f("pn","Temporary pen name"),err,h("div",{class:"row"},h("button",{class:"pri"},"Find your place among the words"),h("button",{type:"button",onclick:()=>{gate="choose";render()}},"Back"))));return g}
+if(gate==="welcome"){g.append(h("div",{class:"card"},h("h2",{},"Welcome, "+sess().pen+"."),h("p",{class:"serif",style:"font-size:1.3rem;font-style:italic"},"There is room here for the words you have never known where to put."),h("button",{class:"pri",onclick:()=>{view="home";render()}},"Enter the library")));return g}}
+function opt(t,q,d,l,b,fn){return h("div",{class:"opt"},h("h2",{},t),h("div",{class:"q serif"},q),h("p",{},d),h("ul",{},l.map(x=>h("li",{},x))),h("button",{class:"pri",onclick:fn},b))}
+function app(){const s=sess(),day=Math.floor(Date.now()/864e5),P=PROMPTS[day%PROMPTS.length];
+const nav=h("aside",{class:"nav",id:"nav","aria-label":"Sections"},h("div",{class:"logo serif"},NAME,h("small",{},"a quiet digital library")),
+Object.entries(SEC).map(([k,v])=>h("button",{"aria-current":view===k?"page":null,onclick:()=>{$("#nav").classList.remove("open");go(k)}},v[1]+"  "+v[0])),
+h("div",{class:"me"},h("div",{},h("b",{},s.pen),h("span",{class:"badge"},{perm:"member",temp:"temporary",visitor:"visitor"}[s.mode])),
+s.mode==="temp"?h("div",{class:"meta"},"Session ends "+new Date(s.exp).toLocaleString()):"",
+h("div",{class:"row",style:"margin-top:.5rem"},h("button",{onclick:()=>{S.theme=S.theme==="dark"?"light":"dark";save();render()}},"Theme"),h("button",{onclick:()=>{shownSz()}},"A±"),h("button",{onclick:()=>{if(s.mode==="temp"&&!confirm("End this temporary session? Your posts stay, but you won’t be able to edit them."))return;go("switch")}},s.mode==="perm"?"Sign out":"Change entry"))));
+const top=h("div",{class:"top"},h("button",{"aria-label":"Menu",onclick:()=>$("#nav").classList.toggle("open")},"☰ Menu"),h("span",{class:"serif",style:"font-size:1.3rem"},NAME));
+const right=h("div",{class:"right"},h("h3",{},"Today’s prompt"),h("p",{class:"serif",style:"font-size:1.15rem"},P[1]),h("span",{class:"tag"},P[0]),
+h("section",{},h("b",{},"Recent discussions"),...S.posts.filter(p=>["lounge","questions"].includes(p.sec)).slice(-3).reverse().map(p=>h("div",{},p.title))),
+h("section",{class:"serif",style:"font-style:italic"},QUOTES[day%QUOTES.length]),h("section",{},h("button",{onclick:()=>go("about")},"Community guidelines")));
+return h("div",{class:"app"},top,nav,h("div",{class:"cols"},h("main",{},page(P)),right))}
+function shownSz(){const r=document.documentElement,c=parseInt(getComputedStyle(r).getPropertyValue("--sz"))||19;r.style.setProperty("--sz",(c>=25?17:c+2)+"px")}
+function page(P){const [title,,kind]=SEC[view],m=h("div",{});m.append(h("h1",{style:"font-size:2.2rem;margin-bottom:.6rem"},title));
+const s=sess();
+if(view==="about")return about(m);
+if(view==="writers"){const w={};S.posts.forEach(p=>{(w[p.author.id]=w[p.author.id]||{...p.author,n:0}).n++});const a=Object.values(w);m.append(a.length?a.map(x=>h("div",{class:"post"},h("h3",{},x.pen),h("span",{class:"meta"},x.n+" published · "+({perm:"permanent member",temp:"temporary poet (former pen name)"}[x.mode]||"house"))) ):h("div",{class:"empty"},"No writers yet."));return m}
+if(view==="saved"){const ids=S.saves[s.uid]||[];if(s.mode!=="perm"){m.append(h("div",{class:"note"},"Collections are kept for permanent members. Temporary poets and visitors don’t keep a reading list."));return m}
+const L=S.posts.filter(p=>ids.includes(p.id));m.append(L.length?L.map(card):h("div",{class:"empty"},"Nothing saved yet. Press “Save” on a poem you want to keep."));return m}
+if(view==="prompts")m.append(h("div",{class:"note"},h("b",{},"Today’s prompt ("+P[0]+"): "),P[1]+" Prompts change daily on a fixed schedule."));
+if(view==="questions"&&s.mode==="visitor")m.append(h("div",{class:"note"},"You’re a visitor: you may ask and answer in Questions. Everywhere else is read-only."));
+else if(!can("post",view))m.append(h("div",{class:"note"},"Reading only — "),h("button",{onclick:()=>deny("post")},"Change how you enter"));
+if(can("post",view))m.append(composer(view,kind));
+m.append(h("div",{class:"row",style:"margin:.5rem 0 1rem"},h("input",{type:"search","aria-label":"Search",placeholder:"Search titles, words, names, tags…",value:q,oninput:e=>{q=e.target.value;const c=e.target.selectionStart;render();const i=$("input[type=search]");i.focus();i.setSelectionRange(c,c)}})));
+let L=S.posts.filter(p=>p.sec===view).filter(p=>!p.hidden);const t=q.toLowerCase();if(t)L=L.filter(p=>[p.title,p.body,p.author.pen,(p.tags||[]).join(" ")].join(" ").toLowerCase().includes(t));
+L.sort((a,b)=>b.ts-a.ts);
+if(!L.length)m.append(h("div",{class:"empty"},t?"Nothing matches that search.":"The shelves are quiet here. Perhaps you’ll write the first line."));
+L.slice(0,shown).forEach(p=>m.append(card(p)));
+if(L.length>shown){const sen=h("button",{onclick:()=>{shown+=6;render()}},"Load more");m.append(sen);new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){o.disconnect();shown+=6;render()}}).observe(sen)}
+return m}
+function composer(sec,kind){let img=null;const isQ=sec==="questions";
+const pv=h("div"),err=h("p",{class:"meta",role:"alert"});
+const T=h("input",{id:"ct",placeholder:"Title",maxlength:"120"}),B=h("textarea",{id:"cb",rows:"7",placeholder:isQ?"Describe your question…":"Write here. Line breaks and stanzas are kept exactly as you type them."}),G=h("input",{placeholder:"Tags, separated by commas"});
+const F=h("input",{type:"file",accept:"image/*",onchange:e=>{const fl=e.target.files[0];if(!fl)return;if(!fl.type.startsWith("image/"))return err.textContent="Only images can be uploaded in this prototype.";if(fl.size>8e6)return err.textContent="That image is over 8 MB.";
+const im=new Image();im.onload=()=>{const k=Math.min(1,900/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);img=c.toDataURL("image/jpeg",.75);err.textContent="";pv.replaceChildren(h("img",{src:img,alt:"Preview"}),h("button",{type:"button",onclick:()=>{img=null;pv.replaceChildren();F.value=""}},"Remove image"))};im.onerror=()=>err.textContent="That file could not be read as an image.";im.src=URL.createObjectURL(fl)}});
+return h("details",{class:"post"},h("summary",{},"Share your words"),T,B,G,h("label",{},"Image (photo, notebook page or screenshot)"),F,pv,err,
+h("button",{class:"pri",style:"margin-top:.6rem",onclick:()=>{const s=sess();if(!can("post",sec))return deny("post");const title=T.value.trim(),body=B.value;
+if(!body.trim()&&!img)return err.textContent="Write something or attach an image first.";if(isQ&&!title)return err.textContent="A question needs a title.";
+S.posts.push({id:rid(),sec,title,body,img,tags:G.value.split(",").map(x=>x.trim()).filter(Boolean),author:{id:s.uid,pen:s.pen,mode:s.mode},ts:Date.now(),likes:[],comments:[],rev:[]});save();toast("Published. It joins the archive.");render()}},"Publish"))}
+function card(p){const s=sess(),long=p.body.length>700,sv=(S.saves[s.uid]||[]).includes(p.id),ed=editing===p.id;
+const b=ed?h("textarea",{id:"eb",rows:"8"}):h(long?"details":"div",{},long?h("summary",{},"Read the full poem"):"",h("div",{class:"body"},p.body));if(ed)b.value=p.body;
+const act=(l,fn,okAct,pressed)=>h("button",{"aria-pressed":pressed==null?null:String(pressed),"aria-disabled":okAct&&!can(okAct,p.sec)?"true":null,onclick:()=>{if(okAct&&!can(okAct,p.sec))return deny(okAct);fn()}},l);
+const c=h("article",{class:"post",id:"p"+p.id},h("h3",{},p.title||"Untitled"),h("div",{class:"meta"},p.author.pen,p.author.mode==="temp"?h("span",{class:"badge"},"temporary poet"):"",""," · "+new Date(p.ts).toLocaleDateString(),p.rev.length?" · edited ("+p.rev.length+" earlier version"+(p.rev.length>1?"s":"")+" kept)":""),
+b,p.img?h("img",{src:p.img,alt:"Image submitted with "+(p.title||"this post")}):"",h("div",{},(p.tags||[]).map(t=>h("span",{class:"tag"},"#"+t))));
+if(ed)c.append(h("div",{class:"row"},h("button",{class:"pri",onclick:()=>{const v=$("#eb").value;if(v!==p.body){p.rev.push({body:p.body,ts:Date.now()});p.body=v}editing=null;save();render()}},"Save edit"),h("button",{onclick:()=>{editing=null;render()}},"Cancel")));
+const nc=p.comments.length,kind=p.sec==="questions"?"Answers":"Comments";
+c.append(h("div",{class:"acts"},act("♡ "+p.likes.length,()=>{const i=p.likes.indexOf(s.uid);i<0?p.likes.push(s.uid):p.likes.splice(i,1);save();render()},"react",p.likes.includes(s.uid)),
+act(kind+" ("+nc+")",()=>{open.has(p.id)?open.delete(p.id):open.add(p.id);render()}),
+act(sv?"Saved":"Save",()=>{const a=S.saves[s.uid]=S.saves[s.uid]||[];const i=a.indexOf(p.id);i<0?a.push(p.id):a.splice(i,1);save();render()},"save"),
+h("button",{onclick:()=>{const u=location.href.split("#")[0]+"#p"+p.id;navigator.clipboard?.writeText(u).then(()=>toast("Link copied"),()=>toast(u))}},"Copy link"),
+h("button",{onclick:()=>{S.reports.push({post:p.id,by:s.uid,ts:Date.now()});save();toast("Reported. Thank you — it will be reviewed.")}},"Report"),
+mine(p)?h("button",{onclick:()=>{editing=p.id;render()}},"Edit"):"",mine(p)?h("button",{onclick:()=>{if(confirm("Published work stays in the archive. Request removal for review?")){S.reports.push({post:p.id,by:s.uid,ts:Date.now(),removal:true});save();toast("Removal requested. It will be reviewed.")}}},"Request removal"):""));
+if(open.has(p.id)){p.comments.forEach(m=>c.append(h("div",{class:"cm"+(m.acc?" acc":"")},h("div",{class:"meta"},m.pen+" · "+new Date(m.ts).toLocaleDateString()+(m.acc?" · accepted answer":"")),h("div",{style:"white-space:pre-wrap"},m.text),
+p.sec==="questions"&&mine(p)?h("button",{onclick:()=>{p.comments.forEach(x=>x.acc=x===m&&!x.acc);save();render()}},m.acc?"Unaccept":"Accept answer"):"")));
+if(can("comment",p.sec)){const t=h("textarea",{rows:"2","aria-label":"Your reply",placeholder:p.sec==="help"?"Offer a constructive suggestion…":"Write a reply…"});c.append(h("div",{style:"margin-top:.6rem"},t,h("button",{class:"pri",style:"margin-top:.3rem",onclick:()=>{if(!t.value.trim())return toast("Write something first.");p.comments.push({id:rid(),uid:s.uid,pen:s.pen,text:t.value,ts:Date.now()});save();render()}},"Reply")))}
+else c.append(h("p",{class:"meta"},"Replying needs a temporary poet session or permanent membership. "),h("button",{onclick:()=>deny("comment")},"Change how you enter"))}
+return c}
+function about(m){m.append(h("div",{class:"post"},h("h3",{},"Our purpose"),h("p",{},NAME+" is a quiet place to share poetry, ask questions, and offer kindness to other writers."),h("h3",{},"Guidelines"),h("p",{},"Be constructive. No harassment, hate, or mockery. Keep this a space that younger writers can safely join. Use Report on anything that worries you."),
+h("h3",{},"Publication policy"),h("p",{},"Published work stays in the archive: it is not deleted when a temporary session expires, you sign out, or you change how you enter. Edits keep earlier versions. Authors may request removal, and content may be removed for legal, privacy, safety, or serious rule reasons — permanence does not override those."),
+h("h3",{},"Public vs. private"),h("p",{},"Everything you publish is public under your pen name. Saved collections are private. Temporary poets lose edit access when their session ends, and no one can claim their work by reusing the name."),
+h("h3",{},"About this prototype"),h("p",{},"This version stores everything in your own browser. It is not a shared, multi-user site: other people cannot see your posts, passwords cannot sign you in on other devices, and permissions are enforced only in this page’s code. See the notes in the chat for what a real deployment needs.")));return m}
+if(location.hash.startsWith("#p")&&sess())view="home";
+render();
+</script></body></html>
